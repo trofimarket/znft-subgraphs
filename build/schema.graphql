@@ -1,0 +1,20 @@
+type Merchant @entity {
+  id: ID!
+  proposalId: BigInt!
+  ipfs: String!
+  address: Bytes!
+  listingFee: BigInt!
+  platformFee: BigInt!
+}
+
+type VoteInfo @entity {
+  id: ID!
+  proposalId: BigInt!
+  voter: Bytes!
+  balance: BigInt!
+}
+
+type Proposal @entity {
+  id: ID!
+  votes: BigInt!
+}

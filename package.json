@@ -1,0 +1,22 @@
+{
+    "name": "bollycoin-v1-subgraph",
+    "version": "0.1.0",
+    "scripts": {
+        "create": "graph create NodeberryInc/bollycoin-privatesale-subgraph --node https://api.thegraph.com/deploy/",
+        "create-local": "graph create NodeberryInc/bollycoin-privatesale-subgraph --node http://127.0.0.1:8020",
+        "codegen": "graph codegen",
+        "build": "graph build",
+        "deploy": "graph deploy znftmarket/znft-kovan --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+        "deploy-local": "graph deploy znftmarket/znft-kovan --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
+    },
+    "devDependencies": {
+        "@graphprotocol/graph-cli": "^0.20.0",
+        "@graphprotocol/graph-ts": "^0.20.0"
+    },
+    "dependencies": {
+        "babel-polyfill": "^6.26.0",
+        "babel-register": "^6.26.0",
+        "ethers": "^5.3.1",
+        "typescript": "^4.3.2"
+    }
+}
