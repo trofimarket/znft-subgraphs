@@ -1,6 +1,6 @@
-import {CreateMerchant, Vote} from "../generated/DAO/DAO";
+import {CreateMerchant, Vote, DAO} from "../generated/DAO/DAO";
 import {Merchant, VoteInfo, Proposal } from "../generated/schema";
-import {BigInt} from "@graphprotocol/graph-ts";
+import {Address, BigInt, Bytes} from "@graphprotocol/graph-ts";
 
 export function handleMerchantCreation(event: CreateMerchant) : void {
     let transactionHash = event.transaction.hash.toHexString();
@@ -33,12 +33,15 @@ export function handleVote(event: Vote) : void {
 
     let proposalId = event.params.proposalId.toHexString();
     let proposal = Proposal.load(proposalId);
+    let contract =  DAO.bind(event.address);
 
     if(proposal === null) {
         proposal = new Proposal(proposalId);
         proposal.votes = event.params.znftShares;
+        proposal.status = contract.proposal(event.params.proposalId).value3;
     } else {
         proposal.votes = proposal.votes.plus(event.params.znftShares);
+        proposal.status = contract.proposal(event.params.proposalId).value3;
     }
 
     proposal.save();

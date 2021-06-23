@@ -17,4 +17,17 @@ type VoteInfo @entity {
 type Proposal @entity {
   id: ID!
   votes: BigInt!
+  status: Boolean
+}
+
+type NFT @entity {
+  id: ID!
+  owner: Bytes!
+}
+
+type Transfers @entity {
+  id: ID!
+  from: Bytes!
+  to: Bytes!
+  tokenId: BigInt!
 }
