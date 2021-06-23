@@ -20,8 +20,9 @@ type Proposal @entity {
   status: Boolean
 }
 
-type NFT @entity {
+type Token @entity {
   id: ID!
+  hash: String!
   owner: Bytes!
 }
 
@@ -30,4 +31,29 @@ type Transfers @entity {
   from: Bytes!
   to: Bytes!
   tokenId: BigInt!
+}
+
+type Auction @entity {
+  id: ID!
+  tokenId: BigInt!
+  starts: BigInt!
+  listingPrice: BigInt!
+  highestBid: BigInt
+  highestBidder: Bytes
+  ends: BigInt
+  creator: Bytes
+  creationHash: Bytes
+  settlementHash: Bytes
+  isSettled: Boolean
+  createdAt: BigInt!
+  settledAt: BigInt
+}
+
+type BidInfo @entity {
+  id: ID!
+  bidder: Bytes
+  auctionId: BigInt!
+  tokenId: BigInt!
+  currency: String!
+  amount: BigInt!
 }

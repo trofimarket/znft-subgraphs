@@ -16,7 +16,9 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Deposit
+        - Merchant
+        - VoteInfo
+        - Proposal
       abis:
         - name: DAO
           file: ./abis/DAO.json
@@ -38,7 +40,8 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - NFT
+        - Token
+        - Transfers
       abis:
         - name: NFT
           file: ./abis/NFT.json
@@ -46,3 +49,28 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/nft.ts
+  - kind: ethereum/contract
+    name: Auction
+    network: kovan
+    source:
+      address: "0x47896071EEc6937F6561347D7D704cfAA2a8dF4A"
+      abi: Auction
+      startBlock: 25669767
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Auction
+        - BidInfo
+      abis:
+        - name: Auction
+          file: ./abis/AUCTION.json
+      eventHandlers:
+        - event: ListItem(uint256,uint256,address,uint256,uint256)
+          handler: handleCreation
+        - event: Bid(uint256,string,uint256)
+          handler: handleBid
+        - event: Settle(uint256)
+          handler: handleSettlement
+      file: ./src/auction.ts
