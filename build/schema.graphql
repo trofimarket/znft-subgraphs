@@ -41,12 +41,14 @@ type Auction @entity {
   highestBid: BigInt
   highestBidder: Bytes
   ends: BigInt
+  toptime: BigInt
   creator: Bytes
   creationHash: Bytes
   settlementHash: Bytes
   isSettled: Boolean
   createdAt: BigInt!
   settledAt: BigInt
+  highestBidAt: BigInt
 }
 
 type BidInfo @entity {

@@ -15,6 +15,7 @@ export function handleCreation(event: ListItem) : void {
     auction.tokenId = info.tokenId;
     auction.starts = event.block.timestamp;
     auction.ends = info.endsAt;
+    auction.toptime = info.topTime;
     auction.creator = info.owner;
     auction.listingPrice = info.price;
     auction.creationHash = transactionHash;
@@ -43,6 +44,7 @@ export function handleBid(event: Bid) : void {
 
     auction.highestBid = info.amount;
     auction.highestBidder = event.transaction.from;
+    auction.highestBidAt = event.block.timestamp;
     
     bid.bidder = event.transaction.from;
     bid.auctionId = event.params.auctionId;

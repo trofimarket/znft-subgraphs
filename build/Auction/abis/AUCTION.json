@@ -56,6 +56,12 @@
         "internalType": "uint256",
         "name": "endsAt",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "topTime",
+        "type": "uint256"
       }
     ],
     "name": "ListItem",
@@ -128,6 +134,11 @@
           {
             "internalType": "uint256",
             "name": "end",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "toptime",
             "type": "uint256"
           },
           {
@@ -287,6 +298,11 @@
       {
         "internalType": "uint256",
         "name": "_price",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_topTime",
         "type": "uint256"
       }
     ],

@@ -31,8 +31,8 @@ export class CreateMerchant__Params {
     return this._event.parameters[1].value.toAddress();
   }
 
-  get listingFee(): i32 {
-    return this._event.parameters[2].value.toI32();
+  get listingFee(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
   }
 
   get platformTax(): i32 {
@@ -103,13 +103,13 @@ export class DAO extends ethereum.SmartContract {
     return new DAO("DAO", address);
   }
 
-  createMerchant(hash: string, listingFee: i32, platformTax: i32): boolean {
+  createMerchant(hash: string, listingFee: BigInt, platformTax: i32): boolean {
     let result = super.call(
       "createMerchant",
-      "createMerchant(string,uint8,uint8):(bool)",
+      "createMerchant(string,uint256,uint8):(bool)",
       [
         ethereum.Value.fromString(hash),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(listingFee)),
+        ethereum.Value.fromUnsignedBigInt(listingFee),
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(platformTax))
       ]
     );
@@ -119,15 +119,15 @@ export class DAO extends ethereum.SmartContract {
 
   try_createMerchant(
     hash: string,
-    listingFee: i32,
+    listingFee: BigInt,
     platformTax: i32
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "createMerchant",
-      "createMerchant(string,uint8,uint8):(bool)",
+      "createMerchant(string,uint256,uint8):(bool)",
       [
         ethereum.Value.fromString(hash),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(listingFee)),
+        ethereum.Value.fromUnsignedBigInt(listingFee),
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(platformTax))
       ]
     );
@@ -326,8 +326,8 @@ export class CreateMerchantCall__Inputs {
     return this._call.inputValues[0].value.toString();
   }
 
-  get listingFee(): i32 {
-    return this._call.inputValues[1].value.toI32();
+  get listingFee(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
   }
 
   get platformTax(): i32 {

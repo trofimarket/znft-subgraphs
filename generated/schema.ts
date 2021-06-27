@@ -410,6 +410,23 @@ export class Auction extends Entity {
     }
   }
 
+  get toptime(): BigInt | null {
+    let value = this.get("toptime");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set toptime(value: BigInt | null) {
+    if (value === null) {
+      this.unset("toptime");
+    } else {
+      this.set("toptime", Value.fromBigInt(value as BigInt));
+    }
+  }
+
   get creator(): Bytes | null {
     let value = this.get("creator");
     if (value === null || value.kind == ValueKind.NULL) {
@@ -493,6 +510,23 @@ export class Auction extends Entity {
       this.unset("settledAt");
     } else {
       this.set("settledAt", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get highestBidAt(): BigInt | null {
+    let value = this.get("highestBidAt");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set highestBidAt(value: BigInt | null) {
+    if (value === null) {
+      this.unset("highestBidAt");
+    } else {
+      this.set("highestBidAt", Value.fromBigInt(value as BigInt));
     }
   }
 }

@@ -8,9 +8,9 @@ dataSources:
     name: DAO
     network: kovan
     source:
-      address: "0x353766381b757Ee64ce6fa50E584362DE315a03a"
+      address: "0xdeFE445175762cd4490C2EEF4ba34Ae64C6e2e75"
       abi: DAO
-      startBlock: 25607082
+      startBlock: 25669767
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -23,7 +23,7 @@ dataSources:
         - name: DAO
           file: ./abis/DAO.json
       eventHandlers:
-        - event: CreateMerchant(bytes,address,uint8,uint8,uint256)
+        - event: CreateMerchant(bytes,address,uint256,uint8,uint256)
           handler: handleMerchantCreation
         - event: Vote(uint256,address,uint256)
           handler: handleVote
@@ -53,7 +53,7 @@ dataSources:
     name: Auction
     network: kovan
     source:
-      address: "0x47896071EEc6937F6561347D7D704cfAA2a8dF4A"
+      address: "0xA6aCa31DB5c67Ee2958Db4C2B01E3A120F2D49E3"
       abi: Auction
       startBlock: 25669767
     mapping:
@@ -67,7 +67,7 @@ dataSources:
         - name: Auction
           file: ./abis/AUCTION.json
       eventHandlers:
-        - event: ListItem(uint256,uint256,address,uint256,uint256)
+        - event: ListItem(uint256,uint256,address,uint256,uint256,uint256)
           handler: handleCreation
         - event: Bid(uint256,string,uint256)
           handler: handleBid

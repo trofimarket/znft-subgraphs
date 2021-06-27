@@ -11,8 +11,8 @@ export function handleMerchantCreation(event: CreateMerchant) : void {
     }
 
     merchant.proposalId = event.params.proposalId;
-    merchant.listingFee = BigInt.fromI32(event.params.listingFee);
-    merchant.platformFee = BigInt.fromI32(event.params.listingFee);
+    merchant.listingFee = event.params.listingFee;
+    merchant.platformFee = BigInt.fromI32(event.params.platformTax);
     merchant.ipfs = event.params.hash.toString();
     merchant.address = event.transaction.from;
 
