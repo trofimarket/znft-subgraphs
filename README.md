@@ -55,6 +55,22 @@ Step by step instructions on setting up the project and running it
 
    > This command is for deploying the subgraphs to a hosted network. If the above command throws error due to TS compatibility try running `graph deploy znftmarket/znft-kovan --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/`
 
+### Creating a new hosted deployment project
+
+For deploying the Subgraphs you've to create a project in the [thegraph.com](https://thegraph.com). For that you've to sign-in with your GitHub account & create a project inside the dashboard. Once you created the project, follow the below steps to deploy your subgraph to that project.
+
+1. Set the auth token. (On your dashboard you'll get your authtoken). Replace YOUR-AUTH-TOKEN with the token from the dashboard.
+   `graph auth https://api.thegraph.com/deploy/ <YOUR-AUTH-TOKEN>`
+
+2. Replace the project name in the package.json deploy script. Replace NAME-OF-PROJECT with the name of the project you've created in the graph dashboard.
+
+   > The deployment script should be `graph deploy <NAME-OF-PROJECT> --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/`
+
+3. Run the following command to deploy your subgraph to the new project.
+   `npm run deploy` or `graph deploy <NAME-OF-PROJECT> --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/`
+
+   > Replace the NAME-OF-PROJECT to the name of the project you've created in the graph dashboard.
+
 ### Project structure
 
 1. All Configuration Files can be found at [subgraph.yaml](./subgraph.yaml) file.
