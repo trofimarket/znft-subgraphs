@@ -410,6 +410,201 @@ export class Auction extends Entity {
     }
   }
 
+  get creator(): Bytes | null {
+    let value = this.get("creator");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set creator(value: Bytes | null) {
+    if (value === null) {
+      this.unset("creator");
+    } else {
+      this.set("creator", Value.fromBytes(value as Bytes));
+    }
+  }
+
+  get creationHash(): Bytes | null {
+    let value = this.get("creationHash");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set creationHash(value: Bytes | null) {
+    if (value === null) {
+      this.unset("creationHash");
+    } else {
+      this.set("creationHash", Value.fromBytes(value as Bytes));
+    }
+  }
+
+  get settlementHash(): Bytes | null {
+    let value = this.get("settlementHash");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set settlementHash(value: Bytes | null) {
+    if (value === null) {
+      this.unset("settlementHash");
+    } else {
+      this.set("settlementHash", Value.fromBytes(value as Bytes));
+    }
+  }
+
+  get isSettled(): boolean {
+    let value = this.get("isSettled");
+    return value.toBoolean();
+  }
+
+  set isSettled(value: boolean) {
+    this.set("isSettled", Value.fromBoolean(value));
+  }
+
+  get createdAt(): BigInt {
+    let value = this.get("createdAt");
+    return value.toBigInt();
+  }
+
+  set createdAt(value: BigInt) {
+    this.set("createdAt", Value.fromBigInt(value));
+  }
+
+  get settledAt(): BigInt | null {
+    let value = this.get("settledAt");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set settledAt(value: BigInt | null) {
+    if (value === null) {
+      this.unset("settledAt");
+    } else {
+      this.set("settledAt", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get highestBidAt(): BigInt | null {
+    let value = this.get("highestBidAt");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set highestBidAt(value: BigInt | null) {
+    if (value === null) {
+      this.unset("highestBidAt");
+    } else {
+      this.set("highestBidAt", Value.fromBigInt(value as BigInt));
+    }
+  }
+}
+
+export class TopTime extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save TopTime entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save TopTime entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("TopTime", id.toString(), this);
+  }
+
+  static load(id: string): TopTime | null {
+    return store.get("TopTime", id) as TopTime | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tokenId(): BigInt {
+    let value = this.get("tokenId");
+    return value.toBigInt();
+  }
+
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
+  }
+
+  get starts(): BigInt {
+    let value = this.get("starts");
+    return value.toBigInt();
+  }
+
+  set starts(value: BigInt) {
+    this.set("starts", Value.fromBigInt(value));
+  }
+
+  get listingPrice(): BigInt {
+    let value = this.get("listingPrice");
+    return value.toBigInt();
+  }
+
+  set listingPrice(value: BigInt) {
+    this.set("listingPrice", Value.fromBigInt(value));
+  }
+
+  get highestBid(): BigInt | null {
+    let value = this.get("highestBid");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set highestBid(value: BigInt | null) {
+    if (value === null) {
+      this.unset("highestBid");
+    } else {
+      this.set("highestBid", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get highestBidder(): Bytes | null {
+    let value = this.get("highestBidder");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set highestBidder(value: Bytes | null) {
+    if (value === null) {
+      this.unset("highestBidder");
+    } else {
+      this.set("highestBidder", Value.fromBytes(value as Bytes));
+    }
+  }
+
   get toptime(): BigInt | null {
     let value = this.get("toptime");
     if (value === null || value.kind == ValueKind.NULL) {
@@ -531,7 +726,7 @@ export class Auction extends Entity {
   }
 }
 
-export class BidInfo extends Entity {
+export class aBidInfo extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -539,17 +734,101 @@ export class BidInfo extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save BidInfo entity without an ID");
+    assert(id !== null, "Cannot save aBidInfo entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save BidInfo entity with non-string ID. " +
+      "Cannot save aBidInfo entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("BidInfo", id.toString(), this);
+    store.set("aBidInfo", id.toString(), this);
   }
 
-  static load(id: string): BidInfo | null {
-    return store.get("BidInfo", id) as BidInfo | null;
+  static load(id: string): aBidInfo | null {
+    return store.get("aBidInfo", id) as aBidInfo | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get bidder(): Bytes | null {
+    let value = this.get("bidder");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set bidder(value: Bytes | null) {
+    if (value === null) {
+      this.unset("bidder");
+    } else {
+      this.set("bidder", Value.fromBytes(value as Bytes));
+    }
+  }
+
+  get auctionId(): BigInt {
+    let value = this.get("auctionId");
+    return value.toBigInt();
+  }
+
+  set auctionId(value: BigInt) {
+    this.set("auctionId", Value.fromBigInt(value));
+  }
+
+  get tokenId(): BigInt {
+    let value = this.get("tokenId");
+    return value.toBigInt();
+  }
+
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
+  }
+
+  get currency(): string {
+    let value = this.get("currency");
+    return value.toString();
+  }
+
+  set currency(value: string) {
+    this.set("currency", Value.fromString(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+}
+
+export class tBidInfo extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save tBidInfo entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save tBidInfo entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("tBidInfo", id.toString(), this);
+  }
+
+  static load(id: string): tBidInfo | null {
+    return store.get("tBidInfo", id) as tBidInfo | null;
   }
 
   get id(): string {

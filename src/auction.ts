@@ -1,5 +1,5 @@
 import {ListItem, Bid, Settle} from "../generated/Auction/Auction";
-import {Auction, BidInfo} from "../generated/schema";
+import {Auction, aBidInfo} from "../generated/schema";
 
 export function handleCreation(event: ListItem) : void {
     let transactionHash = event.transaction.hash;
@@ -15,7 +15,6 @@ export function handleCreation(event: ListItem) : void {
     auction.tokenId = info.tokenId;
     auction.starts = event.block.timestamp;
     auction.ends = info.endsAt;
-    auction.toptime = info.topTime;
     auction.creator = info.owner;
     auction.listingPrice = info.price;
     auction.creationHash = transactionHash;
@@ -32,14 +31,14 @@ export function handleBid(event: Bid) : void {
     let transactionHash = event.transaction.hash.toHexString();
 
     let auction = Auction.load(auctionId);
-    let bid = BidInfo.load(transactionHash);
+    let bid = aBidInfo.load(transactionHash);
 
     if(auction === null) {
         auction = new Auction(auctionId);
     }
 
     if(bid === null) {
-        bid = new BidInfo(transactionHash);
+        bid = new aBidInfo(transactionHash);
     }
 
     auction.highestBid = info.amount;

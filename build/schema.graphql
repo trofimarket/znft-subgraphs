@@ -41,6 +41,22 @@ type Auction @entity {
   highestBid: BigInt
   highestBidder: Bytes
   ends: BigInt
+  creator: Bytes
+  creationHash: Bytes
+  settlementHash: Bytes
+  isSettled: Boolean
+  createdAt: BigInt!
+  settledAt: BigInt
+  highestBidAt: BigInt
+}
+
+type TopTime @entity {
+  id: ID!
+  tokenId: BigInt!
+  starts: BigInt!
+  listingPrice: BigInt!
+  highestBid: BigInt
+  highestBidder: Bytes
   toptime: BigInt
   creator: Bytes
   creationHash: Bytes
@@ -51,7 +67,16 @@ type Auction @entity {
   highestBidAt: BigInt
 }
 
-type BidInfo @entity {
+type aBidInfo @entity {
+  id: ID!
+  bidder: Bytes
+  auctionId: BigInt!
+  tokenId: BigInt!
+  currency: String!
+  amount: BigInt!
+}
+
+type tBidInfo @entity {
   id: ID!
   bidder: Bytes
   auctionId: BigInt!

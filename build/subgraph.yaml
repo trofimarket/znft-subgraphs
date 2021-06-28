@@ -32,9 +32,9 @@ dataSources:
     name: NFT
     network: kovan
     source:
-      address: "0x78a3DB129F3A4f434E3eF74Df5239867c627aB07"
+      address: "0x45743228d93c9ce6a8738a58e1d632f8270c12ac"
       abi: NFT
-      startBlock: 25669767
+      startBlock: 25768823
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -53,24 +53,49 @@ dataSources:
     name: Auction
     network: kovan
     source:
-      address: "0xA6aCa31DB5c67Ee2958Db4C2B01E3A120F2D49E3"
+      address: "0x517e2056af1abF0c9a8853C832B90CF53d77d2D6"
       abi: Auction
-      startBlock: 25669767
+      startBlock: 25768930
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Auction
-        - BidInfo
+        - aBidInfo
       abis:
         - name: Auction
           file: Auction/abis/AUCTION.json
       eventHandlers:
-        - event: ListItem(uint256,uint256,address,uint256,uint256,uint256)
+        - event: ListItem(uint256,uint256,address,uint256,uint256)
           handler: handleCreation
         - event: Bid(uint256,string,uint256)
           handler: handleBid
         - event: Settle(uint256)
           handler: handleSettlement
       file: Auction/Auction.wasm
+  - kind: ethereum/contract
+    name: Toptime
+    network: kovan
+    source:
+      address: "0xde7d38211C5EFACae87e50a21161131586ECF33e"
+      abi: Toptime
+      startBlock: 25768744
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - TopTime
+        - tBidInfo
+      abis:
+        - name: Toptime
+          file: Toptime/abis/TOPTIME.json
+      eventHandlers:
+        - event: ListItem(uint256,uint256,address,uint256,uint256)
+          handler: handleCreation
+        - event: Bid(uint256,string,uint256)
+          handler: handleBid
+        - event: Settle(uint256)
+          handler: handleSettlement
+      file: Toptime/Toptime.wasm

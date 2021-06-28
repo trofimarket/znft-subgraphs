@@ -54,7 +54,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "endsAt",
+        "name": "toptime",
         "type": "uint256"
       }
     ],
@@ -127,7 +127,7 @@
           },
           {
             "internalType": "uint256",
-            "name": "end",
+            "name": "toptime",
             "type": "uint256"
           },
           {
@@ -141,12 +141,12 @@
             "type": "address"
           },
           {
-            "internalType": "enum Auction.AuctionStatus",
+            "internalType": "enum TopTime.AuctionStatus",
             "name": "status",
             "type": "uint8"
           }
         ],
-        "internalType": "struct Auction.AuctionInfo",
+        "internalType": "struct TopTime.AuctionInfo",
         "name": "",
         "type": "tuple"
       }
@@ -245,7 +245,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct Auction.BidInfo",
+        "internalType": "struct TopTime.BidInfo",
         "name": "",
         "type": "tuple"
       }
@@ -281,7 +281,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "_endsAt",
+        "name": "_toptime",
         "type": "uint256"
       },
       {
