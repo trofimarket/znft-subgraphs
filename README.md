@@ -12,6 +12,7 @@ This repository contains the subgraphs of the znft eco-system. Subgraphs are pre
 
 ### Built with
 
+- [GRAPH PROTOCOL](https://thegraph.com/) - Subgraph Protocol we're using
 - [TypeScript](https://www.typescriptlang.org/) - Handler Functions are programmed in TS
 - [GraphQL](https://graphql.org/) - Queries are written in GraphQL
 - [YAML](https://yaml.org/) - Configuration Files written in YAML
