@@ -33,7 +33,7 @@ dataSources:
     name: NFT
     network: kovan
     source:
-      address: "0x45743228d93c9ce6a8738a58e1d632f8270c12ac"
+      address: "0xFc93D0DAFd87eAA5c8906C51Ada865fA2562Dfd1"
       abi: NFT
       startBlock: 25768823
     mapping:
@@ -75,7 +75,7 @@ dataSources:
           handler: handleBid
         - event: Settle(uint256)
           handler: handleSettlement
-      file: ./src/toptime.ts
+      file: ./src/auction.ts
 
   - kind: ethereum/contract
     name: Toptime
@@ -101,4 +101,4 @@ dataSources:
           handler: handleBid
         - event: Settle(uint256)
           handler: handleSettlement
-      file: ./src/auction.ts
+      file: ./src/toptime.ts
