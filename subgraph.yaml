@@ -8,7 +8,7 @@ dataSources:
     name: DAO
     network: kovan
     source:
-      address: "0xdeFE445175762cd4490C2EEF4ba34Ae64C6e2e75"
+      address: "0xd2084b8F1a5e77e6478a5A1Ed595BaA944E3C3C4"
       abi: DAO
       startBlock: 25669767
     mapping:
@@ -33,7 +33,7 @@ dataSources:
     name: NFT
     network: kovan
     source:
-      address: "0xFc93D0DAFd87eAA5c8906C51Ada865fA2562Dfd1"
+      address: "0x01aBD704087A6251D47Dabbf6c76506ebCD12204"
       abi: NFT
       startBlock: 25768823
     mapping:
@@ -55,7 +55,7 @@ dataSources:
     name: Auction
     network: kovan
     source:
-      address: "0x517e2056af1abF0c9a8853C832B90CF53d77d2D6"
+      address: "0xe7A3dc442Da652E13d11FB9c7e12c6ea24fd2A21"
       abi: Auction
       startBlock: 25768930
     mapping:
@@ -71,17 +71,21 @@ dataSources:
       eventHandlers:
         - event: ListItem(uint256,uint256,address,uint256,uint256)
           handler: handleCreation
-        - event: Bid(uint256,string,uint256)
+        - event: Bid(uint256,string,uint256,uint256)
           handler: handleBid
         - event: Settle(uint256)
           handler: handleSettlement
+        - event: UpdateHash(uint256,string)
+          handler: handleHashUpdate
+        - event: UpdateAuction(uint256,uint256)
+          handler: handleAuctionRestart
       file: ./src/auction.ts
 
   - kind: ethereum/contract
     name: Toptime
     network: kovan
     source:
-      address: "0xde7d38211C5EFACae87e50a21161131586ECF33e"
+      address: "0x53D16BD8372C250B8660672b6B7fF66c261A6454"
       abi: Toptime
       startBlock: 25768744
     mapping:

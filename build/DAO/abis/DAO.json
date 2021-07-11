@@ -75,19 +75,72 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "bscWallet",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "btcWallet",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "string",
         "name": "hash",
         "type": "string"
       },
       {
         "internalType": "uint256",
-        "name": "listingFee",
+        "name": "_listingFee",
         "type": "uint256"
       },
       {
         "internalType": "uint8",
-        "name": "platformTax",
+        "name": "_platformTax",
         "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "_ethWallet",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_bscWallet",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_btcWallet",
+        "type": "string"
       }
     ],
     "name": "createMerchant",
@@ -105,6 +158,25 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "ethWallet",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "_merchantAddress",
         "type": "address"
       }
@@ -115,6 +187,44 @@
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "listingFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "platformTax",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",
@@ -178,6 +288,50 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_proposalId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_listingFee",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_platformTax",
+        "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "_ethWallet",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_bscWallet",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_btcWallet",
+        "type": "string"
+      }
+    ],
+    "name": "updateParams",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

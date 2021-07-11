@@ -103,14 +103,62 @@ export class DAO extends ethereum.SmartContract {
     return new DAO("DAO", address);
   }
 
-  createMerchant(hash: string, listingFee: BigInt, platformTax: i32): boolean {
+  bscWallet(param0: Address): string {
+    let result = super.call("bscWallet", "bscWallet(address):(string)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+
+    return result[0].toString();
+  }
+
+  try_bscWallet(param0: Address): ethereum.CallResult<string> {
+    let result = super.tryCall("bscWallet", "bscWallet(address):(string)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
+  btcWallet(param0: Address): string {
+    let result = super.call("btcWallet", "btcWallet(address):(string)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+
+    return result[0].toString();
+  }
+
+  try_btcWallet(param0: Address): ethereum.CallResult<string> {
+    let result = super.tryCall("btcWallet", "btcWallet(address):(string)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
+  createMerchant(
+    hash: string,
+    _listingFee: BigInt,
+    _platformTax: i32,
+    _ethWallet: string,
+    _bscWallet: string,
+    _btcWallet: string
+  ): boolean {
     let result = super.call(
       "createMerchant",
-      "createMerchant(string,uint256,uint8):(bool)",
+      "createMerchant(string,uint256,uint8,string,string,string):(bool)",
       [
         ethereum.Value.fromString(hash),
-        ethereum.Value.fromUnsignedBigInt(listingFee),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(platformTax))
+        ethereum.Value.fromUnsignedBigInt(_listingFee),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_platformTax)),
+        ethereum.Value.fromString(_ethWallet),
+        ethereum.Value.fromString(_bscWallet),
+        ethereum.Value.fromString(_btcWallet)
       ]
     );
 
@@ -119,16 +167,22 @@ export class DAO extends ethereum.SmartContract {
 
   try_createMerchant(
     hash: string,
-    listingFee: BigInt,
-    platformTax: i32
+    _listingFee: BigInt,
+    _platformTax: i32,
+    _ethWallet: string,
+    _bscWallet: string,
+    _btcWallet: string
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "createMerchant",
-      "createMerchant(string,uint256,uint8):(bool)",
+      "createMerchant(string,uint256,uint8,string,string,string):(bool)",
       [
         ethereum.Value.fromString(hash),
-        ethereum.Value.fromUnsignedBigInt(listingFee),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(platformTax))
+        ethereum.Value.fromUnsignedBigInt(_listingFee),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_platformTax)),
+        ethereum.Value.fromString(_ethWallet),
+        ethereum.Value.fromString(_bscWallet),
+        ethereum.Value.fromString(_btcWallet)
       ]
     );
     if (result.reverted) {
@@ -136,6 +190,25 @@ export class DAO extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  ethWallet(param0: Address): string {
+    let result = super.call("ethWallet", "ethWallet(address):(string)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+
+    return result[0].toString();
+  }
+
+  try_ethWallet(param0: Address): ethereum.CallResult<string> {
+    let result = super.tryCall("ethWallet", "ethWallet(address):(string)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
   }
 
   isMerchant(_merchantAddress: Address): boolean {
@@ -155,6 +228,44 @@ export class DAO extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  listingFee(param0: Address): BigInt {
+    let result = super.call("listingFee", "listingFee(address):(uint256)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_listingFee(param0: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("listingFee", "listingFee(address):(uint256)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  platformTax(param0: Address): i32 {
+    let result = super.call("platformTax", "platformTax(address):(uint8)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+
+    return result[0].toI32();
+  }
+
+  try_platformTax(param0: Address): ethereum.CallResult<i32> {
+    let result = super.tryCall("platformTax", "platformTax(address):(uint8)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toI32());
   }
 
   proposal(proposalId: BigInt): DAO__proposalResult {
@@ -228,6 +339,57 @@ export class DAO extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  updateParams(
+    _proposalId: BigInt,
+    _listingFee: BigInt,
+    _platformTax: i32,
+    _ethWallet: string,
+    _bscWallet: string,
+    _btcWallet: string
+  ): boolean {
+    let result = super.call(
+      "updateParams",
+      "updateParams(uint256,uint256,uint8,string,string,string):(bool)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_proposalId),
+        ethereum.Value.fromUnsignedBigInt(_listingFee),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_platformTax)),
+        ethereum.Value.fromString(_ethWallet),
+        ethereum.Value.fromString(_bscWallet),
+        ethereum.Value.fromString(_btcWallet)
+      ]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_updateParams(
+    _proposalId: BigInt,
+    _listingFee: BigInt,
+    _platformTax: i32,
+    _ethWallet: string,
+    _bscWallet: string,
+    _btcWallet: string
+  ): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "updateParams",
+      "updateParams(uint256,uint256,uint8,string,string,string):(bool)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_proposalId),
+        ethereum.Value.fromUnsignedBigInt(_listingFee),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_platformTax)),
+        ethereum.Value.fromString(_ethWallet),
+        ethereum.Value.fromString(_bscWallet),
+        ethereum.Value.fromString(_btcWallet)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   updateTokenContract(_newTokenContract: Address): boolean {
@@ -326,12 +488,24 @@ export class CreateMerchantCall__Inputs {
     return this._call.inputValues[0].value.toString();
   }
 
-  get listingFee(): BigInt {
+  get _listingFee(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 
-  get platformTax(): i32 {
+  get _platformTax(): i32 {
     return this._call.inputValues[2].value.toI32();
+  }
+
+  get _ethWallet(): string {
+    return this._call.inputValues[3].value.toString();
+  }
+
+  get _bscWallet(): string {
+    return this._call.inputValues[4].value.toString();
+  }
+
+  get _btcWallet(): string {
+    return this._call.inputValues[5].value.toString();
   }
 }
 
@@ -339,6 +513,60 @@ export class CreateMerchantCall__Outputs {
   _call: CreateMerchantCall;
 
   constructor(call: CreateMerchantCall) {
+    this._call = call;
+  }
+
+  get value0(): boolean {
+    return this._call.outputValues[0].value.toBoolean();
+  }
+}
+
+export class UpdateParamsCall extends ethereum.Call {
+  get inputs(): UpdateParamsCall__Inputs {
+    return new UpdateParamsCall__Inputs(this);
+  }
+
+  get outputs(): UpdateParamsCall__Outputs {
+    return new UpdateParamsCall__Outputs(this);
+  }
+}
+
+export class UpdateParamsCall__Inputs {
+  _call: UpdateParamsCall;
+
+  constructor(call: UpdateParamsCall) {
+    this._call = call;
+  }
+
+  get _proposalId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _listingFee(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _platformTax(): i32 {
+    return this._call.inputValues[2].value.toI32();
+  }
+
+  get _ethWallet(): string {
+    return this._call.inputValues[3].value.toString();
+  }
+
+  get _bscWallet(): string {
+    return this._call.inputValues[4].value.toString();
+  }
+
+  get _btcWallet(): string {
+    return this._call.inputValues[5].value.toString();
+  }
+}
+
+export class UpdateParamsCall__Outputs {
+  _call: UpdateParamsCall;
+
+  constructor(call: UpdateParamsCall) {
     this._call = call;
   }
 

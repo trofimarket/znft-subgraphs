@@ -86,6 +86,57 @@ export class Merchant extends Entity {
   set platformFee(value: BigInt) {
     this.set("platformFee", Value.fromBigInt(value));
   }
+
+  get ethWallet(): string | null {
+    let value = this.get("ethWallet");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set ethWallet(value: string | null) {
+    if (value === null) {
+      this.unset("ethWallet");
+    } else {
+      this.set("ethWallet", Value.fromString(value as string));
+    }
+  }
+
+  get btcWallet(): string | null {
+    let value = this.get("btcWallet");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set btcWallet(value: string | null) {
+    if (value === null) {
+      this.unset("btcWallet");
+    } else {
+      this.set("btcWallet", Value.fromString(value as string));
+    }
+  }
+
+  get bscWallet(): string | null {
+    let value = this.get("bscWallet");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set bscWallet(value: string | null) {
+    if (value === null) {
+      this.unset("bscWallet");
+    } else {
+      this.set("bscWallet", Value.fromString(value as string));
+    }
+  }
 }
 
 export class VoteInfo extends Entity {
@@ -393,6 +444,23 @@ export class Auction extends Entity {
     }
   }
 
+  get amountPaid(): BigInt | null {
+    let value = this.get("amountPaid");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set amountPaid(value: BigInt | null) {
+    if (value === null) {
+      this.unset("amountPaid");
+    } else {
+      this.set("amountPaid", Value.fromBigInt(value as BigInt));
+    }
+  }
+
   get ends(): BigInt | null {
     let value = this.get("ends");
     if (value === null || value.kind == ValueKind.NULL) {
@@ -424,6 +492,23 @@ export class Auction extends Entity {
       this.unset("creator");
     } else {
       this.set("creator", Value.fromBytes(value as Bytes));
+    }
+  }
+
+  get paymentHash(): string | null {
+    let value = this.get("paymentHash");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set paymentHash(value: string | null) {
+    if (value === null) {
+      this.unset("paymentHash");
+    } else {
+      this.set("paymentHash", Value.fromString(value as string));
     }
   }
 
@@ -807,6 +892,23 @@ export class aBidInfo extends Entity {
 
   set amount(value: BigInt) {
     this.set("amount", Value.fromBigInt(value));
+  }
+
+  get paid(): BigInt | null {
+    let value = this.get("paid");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set paid(value: BigInt | null) {
+    if (value === null) {
+      this.unset("paid");
+    } else {
+      this.set("paid", Value.fromBigInt(value as BigInt));
+    }
   }
 }
 

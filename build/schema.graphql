@@ -5,6 +5,9 @@ type Merchant @entity {
   address: Bytes!
   listingFee: BigInt!
   platformFee: BigInt!
+  ethWallet: String
+  btcWallet: String
+  bscWallet: String
 }
 
 type VoteInfo @entity {
@@ -40,8 +43,10 @@ type Auction @entity {
   listingPrice: BigInt!
   highestBid: BigInt
   highestBidder: Bytes
+  amountPaid: BigInt
   ends: BigInt
   creator: Bytes
+  paymentHash: String
   creationHash: Bytes
   settlementHash: Bytes
   isSettled: Boolean
@@ -74,6 +79,7 @@ type aBidInfo @entity {
   tokenId: BigInt!
   currency: String!
   amount: BigInt!
+  paid: BigInt
 }
 
 type tBidInfo @entity {
