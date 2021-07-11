@@ -98,8 +98,12 @@ dataSources:
       eventHandlers:
         - event: ListItem(uint256,uint256,address,uint256,uint256)
           handler: handleCreation
-        - event: Bid(uint256,string,uint256)
+        - event: Bid(uint256,string,uint256,uint256)
           handler: handleBid
         - event: Settle(uint256)
           handler: handleSettlement
+        - event: UpdateHash(uint256,string)
+          handler: handleHashUpdate
+        - event: UpdateAuction(uint256)
+          handler: handleAuctionRestart
       file: Toptime/Toptime.wasm

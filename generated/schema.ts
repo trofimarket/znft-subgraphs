@@ -690,6 +690,23 @@ export class TopTime extends Entity {
     }
   }
 
+  get amountPaid(): BigInt | null {
+    let value = this.get("amountPaid");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set amountPaid(value: BigInt | null) {
+    if (value === null) {
+      this.unset("amountPaid");
+    } else {
+      this.set("amountPaid", Value.fromBigInt(value as BigInt));
+    }
+  }
+
   get toptime(): BigInt | null {
     let value = this.get("toptime");
     if (value === null || value.kind == ValueKind.NULL) {
@@ -721,6 +738,23 @@ export class TopTime extends Entity {
       this.unset("creator");
     } else {
       this.set("creator", Value.fromBytes(value as Bytes));
+    }
+  }
+
+  get paymentHash(): string | null {
+    let value = this.get("paymentHash");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set paymentHash(value: string | null) {
+    if (value === null) {
+      this.unset("paymentHash");
+    } else {
+      this.set("paymentHash", Value.fromString(value as string));
     }
   }
 
@@ -993,5 +1027,22 @@ export class tBidInfo extends Entity {
 
   set amount(value: BigInt) {
     this.set("amount", Value.fromBigInt(value));
+  }
+
+  get paid(): BigInt | null {
+    let value = this.get("paid");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set paid(value: BigInt | null) {
+    if (value === null) {
+      this.unset("paid");
+    } else {
+      this.set("paid", Value.fromBigInt(value as BigInt));
+    }
   }
 }

@@ -62,8 +62,10 @@ type TopTime @entity {
   listingPrice: BigInt!
   highestBid: BigInt
   highestBidder: Bytes
+  amountPaid: BigInt
   toptime: BigInt
   creator: Bytes
+  paymentHash: String
   creationHash: Bytes
   settlementHash: Bytes
   isSettled: Boolean
@@ -89,4 +91,5 @@ type tBidInfo @entity {
   tokenId: BigInt!
   currency: String!
   amount: BigInt!
+  paid: BigInt
 }

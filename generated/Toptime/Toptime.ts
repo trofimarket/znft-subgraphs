@@ -31,8 +31,12 @@ export class Bid__Params {
     return this._event.parameters[1].value.toString();
   }
 
-  get amount(): BigInt {
+  get bidValue(): BigInt {
     return this._event.parameters[2].value.toBigInt();
+  }
+
+  get amountPaid(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
@@ -110,6 +114,46 @@ export class Settle__Params {
   }
 }
 
+export class UpdateAuction extends ethereum.Event {
+  get params(): UpdateAuction__Params {
+    return new UpdateAuction__Params(this);
+  }
+}
+
+export class UpdateAuction__Params {
+  _event: UpdateAuction;
+
+  constructor(event: UpdateAuction) {
+    this._event = event;
+  }
+
+  get auctionId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class UpdateHash extends ethereum.Event {
+  get params(): UpdateHash__Params {
+    return new UpdateHash__Params(this);
+  }
+}
+
+export class UpdateHash__Params {
+  _event: UpdateHash;
+
+  constructor(event: UpdateHash) {
+    this._event = event;
+  }
+
+  get auctionId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get hash(): string {
+    return this._event.parameters[1].value.toString();
+  }
+}
+
 export class Toptime__auctionInfoResultValue0Struct extends ethereum.Tuple {
   get tokenId(): BigInt {
     return this[0].toBigInt();
@@ -123,24 +167,32 @@ export class Toptime__auctionInfoResultValue0Struct extends ethereum.Tuple {
     return this[2].toBigInt();
   }
 
-  get start(): BigInt {
+  get amountPaid(): BigInt {
     return this[3].toBigInt();
   }
 
+  get offChainHash(): Bytes {
+    return this[4].toBytes();
+  }
+
+  get start(): BigInt {
+    return this[5].toBigInt();
+  }
+
   get toptime(): BigInt {
-    return this[4].toBigInt();
+    return this[6].toBigInt();
   }
 
   get creator(): Address {
-    return this[5].toAddress();
+    return this[7].toAddress();
   }
 
   get winner(): Address {
-    return this[6].toAddress();
+    return this[8].toAddress();
   }
 
   get status(): i32 {
-    return this[7].toI32();
+    return this[9].toI32();
   }
 }
 
@@ -166,7 +218,7 @@ export class Toptime extends ethereum.SmartContract {
   auctionInfo(_auctionId: BigInt): Toptime__auctionInfoResultValue0Struct {
     let result = super.call(
       "auctionInfo",
-      "auctionInfo(uint256):((uint256,uint256,uint256,uint256,uint256,address,address,uint8))",
+      "auctionInfo(uint256):((uint256,uint256,uint256,uint256,bytes,uint256,uint256,address,address,uint8))",
       [ethereum.Value.fromUnsignedBigInt(_auctionId)]
     );
 
@@ -178,7 +230,7 @@ export class Toptime extends ethereum.SmartContract {
   ): ethereum.CallResult<Toptime__auctionInfoResultValue0Struct> {
     let result = super.tryCall(
       "auctionInfo",
-      "auctionInfo(uint256):((uint256,uint256,uint256,uint256,uint256,address,address,uint8))",
+      "auctionInfo(uint256):((uint256,uint256,uint256,uint256,bytes,uint256,uint256,address,address,uint8))",
       [ethereum.Value.fromUnsignedBigInt(_auctionId)]
     );
     if (result.reverted) {
@@ -277,21 +329,30 @@ export class Toptime extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  claimAuctionToken(_auctionId: BigInt): boolean {
+  claimAuctionToken(_auctionId: BigInt, _hash: string): boolean {
     let result = super.call(
       "claimAuctionToken",
-      "claimAuctionToken(uint256):(bool)",
-      [ethereum.Value.fromUnsignedBigInt(_auctionId)]
+      "claimAuctionToken(uint256,string):(bool)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_auctionId),
+        ethereum.Value.fromString(_hash)
+      ]
     );
 
     return result[0].toBoolean();
   }
 
-  try_claimAuctionToken(_auctionId: BigInt): ethereum.CallResult<boolean> {
+  try_claimAuctionToken(
+    _auctionId: BigInt,
+    _hash: string
+  ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "claimAuctionToken",
-      "claimAuctionToken(uint256):(bool)",
-      [ethereum.Value.fromUnsignedBigInt(_auctionId)]
+      "claimAuctionToken(uint256,string):(bool)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_auctionId),
+        ethereum.Value.fromString(_hash)
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -317,41 +378,6 @@ export class Toptime extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  createAuction(_tokenId: BigInt, _toptime: BigInt, _price: BigInt): boolean {
-    let result = super.call(
-      "createAuction",
-      "createAuction(uint256,uint256,uint256):(bool)",
-      [
-        ethereum.Value.fromUnsignedBigInt(_tokenId),
-        ethereum.Value.fromUnsignedBigInt(_toptime),
-        ethereum.Value.fromUnsignedBigInt(_price)
-      ]
-    );
-
-    return result[0].toBoolean();
-  }
-
-  try_createAuction(
-    _tokenId: BigInt,
-    _toptime: BigInt,
-    _price: BigInt
-  ): ethereum.CallResult<boolean> {
-    let result = super.tryCall(
-      "createAuction",
-      "createAuction(uint256,uint256,uint256):(bool)",
-      [
-        ethereum.Value.fromUnsignedBigInt(_tokenId),
-        ethereum.Value.fromUnsignedBigInt(_toptime),
-        ethereum.Value.fromUnsignedBigInt(_price)
-      ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   daoContract(): Address {
@@ -381,6 +407,21 @@ export class Toptime extends ethereum.SmartContract {
     let result = super.tryCall("fetchPrice", "fetchPrice(string):(uint256)", [
       ethereum.Value.fromString(_ticker)
     ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  listingFee(): BigInt {
+    let result = super.call("listingFee", "listingFee():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_listingFee(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("listingFee", "listingFee():(uint256)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -571,6 +612,29 @@ export class Toptime extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
+  restartAuction(_auctionId: BigInt): boolean {
+    let result = super.call(
+      "restartAuction",
+      "restartAuction(uint256):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(_auctionId)]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_restartAuction(_auctionId: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "restartAuction",
+      "restartAuction(uint256):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(_auctionId)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
   sAmount(_ticker: string, _btc: BigInt): BigInt {
     let result = super.call("sAmount", "sAmount(string,uint256):(uint256)", [
       ethereum.Value.fromString(_ticker),
@@ -720,6 +784,40 @@ export class Toptime extends ethereum.SmartContract {
   }
 }
 
+export class ConstructorCall extends ethereum.Call {
+  get inputs(): ConstructorCall__Inputs {
+    return new ConstructorCall__Inputs(this);
+  }
+
+  get outputs(): ConstructorCall__Outputs {
+    return new ConstructorCall__Outputs(this);
+  }
+}
+
+export class ConstructorCall__Inputs {
+  _call: ConstructorCall;
+
+  constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+
+  get _nft(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _dao(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+}
+
+export class ConstructorCall__Outputs {
+  _call: ConstructorCall;
+
+  constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+}
+
 export class BidAuctionCall extends ethereum.Call {
   get inputs(): BidAuctionCall__Inputs {
     return new BidAuctionCall__Inputs(this);
@@ -781,6 +879,10 @@ export class ClaimAuctionTokenCall__Inputs {
 
   get _auctionId(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _hash(): string {
+    return this._call.inputValues[1].value.toString();
   }
 }
 
@@ -1000,6 +1102,40 @@ export class ReplaceOracleCall__Outputs {
   _call: ReplaceOracleCall;
 
   constructor(call: ReplaceOracleCall) {
+    this._call = call;
+  }
+
+  get value0(): boolean {
+    return this._call.outputValues[0].value.toBoolean();
+  }
+}
+
+export class RestartAuctionCall extends ethereum.Call {
+  get inputs(): RestartAuctionCall__Inputs {
+    return new RestartAuctionCall__Inputs(this);
+  }
+
+  get outputs(): RestartAuctionCall__Outputs {
+    return new RestartAuctionCall__Outputs(this);
+  }
+}
+
+export class RestartAuctionCall__Inputs {
+  _call: RestartAuctionCall;
+
+  constructor(call: RestartAuctionCall) {
+    this._call = call;
+  }
+
+  get _auctionId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class RestartAuctionCall__Outputs {
+  _call: RestartAuctionCall;
+
+  constructor(call: RestartAuctionCall) {
     this._call = call;
   }
 

@@ -1,4 +1,4 @@
-import {ListItem, Bid, Settle} from "../generated/Toptime/Toptime";
+import {ListItem, Bid, Settle, UpdateHash, UpdateAuction} from "../generated/Toptime/Toptime";
 import {TopTime, tBidInfo} from "../generated/schema";
 
 export function handleCreation(event: ListItem) : void {
@@ -41,15 +41,17 @@ export function handleBid(event: Bid) : void {
         bid = new tBidInfo(transactionHash);
     }
 
-    toptime.highestBid = info.amount;
+    toptime.highestBid = info.bidValue;
     toptime.highestBidder = event.transaction.from;
     toptime.highestBidAt = event.block.timestamp;
+    toptime.amountPaid = info.amountPaid;
     
     bid.bidder = event.transaction.from;
     bid.auctionId = event.params.auctionId;
     bid.tokenId = toptime.tokenId;
     bid.currency = info.currency;
-    bid.amount = info.amount;
+    bid.amount = info.bidValue;
+    bid.paid = info.amountPaid;
 
     bid.save();
     toptime.save();
@@ -71,3 +73,41 @@ export function handleSettlement(event: Settle) : void {
 
     toptime.save();
 }
+
+export function handleHashUpdate(event: UpdateHash) : void {
+    let info = event.params;
+    let auctionId = info.auctionId.toHexString();
+
+    let toptime = TopTime.load(auctionId);
+
+    if(toptime === null) {
+        toptime = new TopTime(auctionId);
+    }
+
+    toptime.paymentHash = info.hash;
+    toptime.save();
+}
+
+export function handleAuctionRestart(event: UpdateAuction) : void {
+    let info = event.params;
+    let auctionId = info.auctionId.toHexString();
+
+    let toptime = TopTime.load(auctionId);
+
+    if(toptime === null) {
+        toptime = new TopTime(auctionId);
+    }
+
+    toptime.highestBid = null;
+    toptime.amountPaid = null;
+    toptime.isSettled = false;
+
+    toptime.highestBidder = null;
+    toptime.highestBidder = null;
+
+    toptime.highestBidAt = null;
+    toptime.starts = event.block.timestamp;
+
+    toptime.creationHash = event.transaction.hash;
+    toptime.save();
+}   
