@@ -93,3 +93,16 @@ type tBidInfo @entity {
   amount: BigInt!
   paid: BigInt
 }
+
+type FixedPrice @entity {
+  id: ID!
+  tokenId: BigInt
+  saleId: BigInt
+  price: BigInt
+  creator: Bytes
+  creationHash: Bytes
+  settlementHash: Bytes
+  buyer: Bytes
+  createdAt: BigInt
+  boughtAt: BigInt
+}

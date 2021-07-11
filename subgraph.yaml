@@ -110,3 +110,26 @@ dataSources:
         - event: UpdateAuction(uint256)
           handler: handleAuctionRestart
       file: ./src/toptime.ts
+
+  - kind: ethereum/contract
+    name: FixedPriceSale
+    network: kovan
+    source:
+      address: "0x33502F0B548Bf6B8F3A576698571c76F8eB23e8F"
+      abi: FixedPriceABI
+      startBlock: 26061617
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - FixedPrice
+      abis:
+        - name: FixedPriceABI
+          file: ./abis/FIXEDPRICE.json
+      eventHandlers:
+        - event: CreateSale(uint256,uint256,uint256,address)
+          handler: handleCreation
+        - event: BuySale(uint256,address)
+          handler: handlePurchase
+      file: ./src/fixedprice.ts

@@ -1046,3 +1046,187 @@ export class tBidInfo extends Entity {
     }
   }
 }
+
+export class FixedPrice extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save FixedPrice entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save FixedPrice entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("FixedPrice", id.toString(), this);
+  }
+
+  static load(id: string): FixedPrice | null {
+    return store.get("FixedPrice", id) as FixedPrice | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tokenId(): BigInt | null {
+    let value = this.get("tokenId");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set tokenId(value: BigInt | null) {
+    if (value === null) {
+      this.unset("tokenId");
+    } else {
+      this.set("tokenId", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get saleId(): BigInt | null {
+    let value = this.get("saleId");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set saleId(value: BigInt | null) {
+    if (value === null) {
+      this.unset("saleId");
+    } else {
+      this.set("saleId", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get price(): BigInt | null {
+    let value = this.get("price");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set price(value: BigInt | null) {
+    if (value === null) {
+      this.unset("price");
+    } else {
+      this.set("price", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get creator(): Bytes | null {
+    let value = this.get("creator");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set creator(value: Bytes | null) {
+    if (value === null) {
+      this.unset("creator");
+    } else {
+      this.set("creator", Value.fromBytes(value as Bytes));
+    }
+  }
+
+  get creationHash(): Bytes | null {
+    let value = this.get("creationHash");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set creationHash(value: Bytes | null) {
+    if (value === null) {
+      this.unset("creationHash");
+    } else {
+      this.set("creationHash", Value.fromBytes(value as Bytes));
+    }
+  }
+
+  get settlementHash(): Bytes | null {
+    let value = this.get("settlementHash");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set settlementHash(value: Bytes | null) {
+    if (value === null) {
+      this.unset("settlementHash");
+    } else {
+      this.set("settlementHash", Value.fromBytes(value as Bytes));
+    }
+  }
+
+  get buyer(): Bytes | null {
+    let value = this.get("buyer");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set buyer(value: Bytes | null) {
+    if (value === null) {
+      this.unset("buyer");
+    } else {
+      this.set("buyer", Value.fromBytes(value as Bytes));
+    }
+  }
+
+  get createdAt(): BigInt | null {
+    let value = this.get("createdAt");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set createdAt(value: BigInt | null) {
+    if (value === null) {
+      this.unset("createdAt");
+    } else {
+      this.set("createdAt", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get boughtAt(): BigInt | null {
+    let value = this.get("boughtAt");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set boughtAt(value: BigInt | null) {
+    if (value === null) {
+      this.unset("boughtAt");
+    } else {
+      this.set("boughtAt", Value.fromBigInt(value as BigInt));
+    }
+  }
+}
