@@ -10,6 +10,32 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class CreateDistribution extends ethereum.Event {
+  get params(): CreateDistribution__Params {
+    return new CreateDistribution__Params(this);
+  }
+}
+
+export class CreateDistribution__Params {
+  _event: CreateDistribution;
+
+  constructor(event: CreateDistribution) {
+    this._event = event;
+  }
+
+  get distributionId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get earners(): Array<Address> {
+    return this._event.parameters[1].value.toAddressArray();
+  }
+
+  get percentages(): Array<BigInt> {
+    return this._event.parameters[2].value.toBigIntArray();
+  }
+}
+
 export class CreateMerchant extends ethereum.Event {
   get params(): CreateMerchant__Params {
     return new CreateMerchant__Params(this);
@@ -44,6 +70,24 @@ export class CreateMerchant__Params {
   }
 }
 
+export class Distribute extends ethereum.Event {
+  get params(): Distribute__Params {
+    return new Distribute__Params(this);
+  }
+}
+
+export class Distribute__Params {
+  _event: Distribute;
+
+  constructor(event: Distribute) {
+    this._event = event;
+  }
+
+  get distributionId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class Vote extends ethereum.Event {
   get params(): Vote__Params {
     return new Vote__Params(this);
@@ -67,6 +111,66 @@ export class Vote__Params {
 
   get znftShares(): BigInt {
     return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class VoteDistribution extends ethereum.Event {
+  get params(): VoteDistribution__Params {
+    return new VoteDistribution__Params(this);
+  }
+}
+
+export class VoteDistribution__Params {
+  _event: VoteDistribution;
+
+  constructor(event: VoteDistribution) {
+    this._event = event;
+  }
+
+  get distributionId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get votes(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get support(): boolean {
+    return this._event.parameters[2].value.toBoolean();
+  }
+}
+
+export class DAO__distributionResultValue0Struct extends ethereum.Tuple {
+  get earners(): Array<Address> {
+    return this[0].toAddressArray();
+  }
+
+  get approved(): boolean {
+    return this[1].toBoolean();
+  }
+
+  get rejected(): boolean {
+    return this[2].toBoolean();
+  }
+
+  get settled(): boolean {
+    return this[3].toBoolean();
+  }
+
+  get percentages(): Array<BigInt> {
+    return this[4].toBigIntArray();
+  }
+
+  get voteFor(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get voteAgainst(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get createdAt(): BigInt {
+    return this[7].toBigInt();
   }
 }
 
@@ -141,6 +245,41 @@ export class DAO extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
+  createDistribution(
+    _earners: Array<Address>,
+    _percentages: Array<BigInt>
+  ): boolean {
+    let result = super.call(
+      "createDistribution",
+      "createDistribution(address[],uint256[]):(bool)",
+      [
+        ethereum.Value.fromAddressArray(_earners),
+        ethereum.Value.fromUnsignedBigIntArray(_percentages)
+      ]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_createDistribution(
+    _earners: Array<Address>,
+    _percentages: Array<BigInt>
+  ): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "createDistribution",
+      "createDistribution(address[],uint256[]):(bool)",
+      [
+        ethereum.Value.fromAddressArray(_earners),
+        ethereum.Value.fromUnsignedBigIntArray(_percentages)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
   createMerchant(
     hash: string,
     _listingFee: BigInt,
@@ -190,6 +329,52 @@ export class DAO extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  distribute(_distributionId: BigInt): boolean {
+    let result = super.call("distribute", "distribute(uint256):(bool)", [
+      ethereum.Value.fromUnsignedBigInt(_distributionId)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_distribute(_distributionId: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall("distribute", "distribute(uint256):(bool)", [
+      ethereum.Value.fromUnsignedBigInt(_distributionId)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  distribution(_distributionId: BigInt): DAO__distributionResultValue0Struct {
+    let result = super.call(
+      "distribution",
+      "distribution(uint256):((address[],bool,bool,bool,uint256[],uint256,uint256,uint256))",
+      [ethereum.Value.fromUnsignedBigInt(_distributionId)]
+    );
+
+    return result[0].toTuple() as DAO__distributionResultValue0Struct;
+  }
+
+  try_distribution(
+    _distributionId: BigInt
+  ): ethereum.CallResult<DAO__distributionResultValue0Struct> {
+    let result = super.tryCall(
+      "distribution",
+      "distribution(uint256):((address[],bool,bool,bool,uint256[],uint256,uint256,uint256))",
+      [ethereum.Value.fromUnsignedBigInt(_distributionId)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      value[0].toTuple() as DAO__distributionResultValue0Struct
+    );
   }
 
   ethWallet(param0: Address): string {
@@ -301,6 +486,29 @@ export class DAO extends ethereum.SmartContract {
         value[3].toBoolean()
       )
     );
+  }
+
+  totalDistributions(): BigInt {
+    let result = super.call(
+      "totalDistributions",
+      "totalDistributions():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_totalDistributions(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "totalDistributions",
+      "totalDistributions():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   totalMerchants(): BigInt {
@@ -435,6 +643,38 @@ export class DAO extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
+
+  voteDistribution(_distributionId: BigInt, _support: boolean): boolean {
+    let result = super.call(
+      "voteDistribution",
+      "voteDistribution(uint256,bool):(bool)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_distributionId),
+        ethereum.Value.fromBoolean(_support)
+      ]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_voteDistribution(
+    _distributionId: BigInt,
+    _support: boolean
+  ): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "voteDistribution",
+      "voteDistribution(uint256,bool):(bool)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_distributionId),
+        ethereum.Value.fromBoolean(_support)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
 }
 
 export class ConstructorCall extends ethereum.Call {
@@ -464,6 +704,44 @@ export class ConstructorCall__Outputs {
 
   constructor(call: ConstructorCall) {
     this._call = call;
+  }
+}
+
+export class CreateDistributionCall extends ethereum.Call {
+  get inputs(): CreateDistributionCall__Inputs {
+    return new CreateDistributionCall__Inputs(this);
+  }
+
+  get outputs(): CreateDistributionCall__Outputs {
+    return new CreateDistributionCall__Outputs(this);
+  }
+}
+
+export class CreateDistributionCall__Inputs {
+  _call: CreateDistributionCall;
+
+  constructor(call: CreateDistributionCall) {
+    this._call = call;
+  }
+
+  get _earners(): Array<Address> {
+    return this._call.inputValues[0].value.toAddressArray();
+  }
+
+  get _percentages(): Array<BigInt> {
+    return this._call.inputValues[1].value.toBigIntArray();
+  }
+}
+
+export class CreateDistributionCall__Outputs {
+  _call: CreateDistributionCall;
+
+  constructor(call: CreateDistributionCall) {
+    this._call = call;
+  }
+
+  get value0(): boolean {
+    return this._call.outputValues[0].value.toBoolean();
   }
 }
 
@@ -513,6 +791,40 @@ export class CreateMerchantCall__Outputs {
   _call: CreateMerchantCall;
 
   constructor(call: CreateMerchantCall) {
+    this._call = call;
+  }
+
+  get value0(): boolean {
+    return this._call.outputValues[0].value.toBoolean();
+  }
+}
+
+export class DistributeCall extends ethereum.Call {
+  get inputs(): DistributeCall__Inputs {
+    return new DistributeCall__Inputs(this);
+  }
+
+  get outputs(): DistributeCall__Outputs {
+    return new DistributeCall__Outputs(this);
+  }
+}
+
+export class DistributeCall__Inputs {
+  _call: DistributeCall;
+
+  constructor(call: DistributeCall) {
+    this._call = call;
+  }
+
+  get _distributionId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class DistributeCall__Outputs {
+  _call: DistributeCall;
+
+  constructor(call: DistributeCall) {
     this._call = call;
   }
 
@@ -635,6 +947,44 @@ export class VoteCall__Outputs {
   _call: VoteCall;
 
   constructor(call: VoteCall) {
+    this._call = call;
+  }
+
+  get value0(): boolean {
+    return this._call.outputValues[0].value.toBoolean();
+  }
+}
+
+export class VoteDistributionCall extends ethereum.Call {
+  get inputs(): VoteDistributionCall__Inputs {
+    return new VoteDistributionCall__Inputs(this);
+  }
+
+  get outputs(): VoteDistributionCall__Outputs {
+    return new VoteDistributionCall__Outputs(this);
+  }
+}
+
+export class VoteDistributionCall__Inputs {
+  _call: VoteDistributionCall;
+
+  constructor(call: VoteDistributionCall) {
+    this._call = call;
+  }
+
+  get _distributionId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _support(): boolean {
+    return this._call.inputValues[1].value.toBoolean();
+  }
+}
+
+export class VoteDistributionCall__Outputs {
+  _call: VoteDistributionCall;
+
+  constructor(call: VoteDistributionCall) {
     this._call = call;
   }
 

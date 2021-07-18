@@ -17,6 +17,26 @@ type VoteInfo @entity {
   balance: BigInt!
 }
 
+type Distribution @entity {
+  id: ID!
+  proposalHash: Bytes
+  voteFor: BigInt
+  voteAgainst: BigInt
+  Approved: Boolean
+  Rejected: Boolean
+  Settled: Boolean
+  SettlementHash: Bytes
+  earners: [String!]
+  percentages: [BigInt!]
+}
+
+type DistributionVote @entity {
+  id: ID!
+  distributionId : BigInt
+  support: Boolean
+  votes: BigInt
+}
+
 type Proposal @entity {
   id: ID!
   votes: BigInt!

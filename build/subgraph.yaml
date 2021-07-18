@@ -8,9 +8,9 @@ dataSources:
     name: DAO
     network: kovan
     source:
-      address: "0xd2084b8F1a5e77e6478a5A1Ed595BaA944E3C3C4"
+      address: "0xB9244C5bCBa0dCB9Ae0973ca67dB223E30B93E5C"
       abi: DAO
-      startBlock: 25669767
+      startBlock: 26198727
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -19,6 +19,8 @@ dataSources:
         - Merchant
         - VoteInfo
         - Proposal
+        - Distribution
+        - DistributionVote
       abis:
         - name: DAO
           file: DAO/abis/DAO.json
@@ -27,6 +29,12 @@ dataSources:
           handler: handleMerchantCreation
         - event: Vote(uint256,address,uint256)
           handler: handleVote
+        - event: CreateDistribution(uint256,address[],uint256[])
+          handler: handleDistribution
+        - event: VoteDistribution(uint256,uint256,bool)
+          handler: handleDistributionVote
+        - event: Distribute(uint256)
+          handler: handleDisbursement
       file: DAO/DAO.wasm
   - kind: ethereum/contract
     name: NFT
