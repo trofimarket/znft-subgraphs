@@ -77,7 +77,12 @@ export function handleDistribution(event: CreateDistribution) : void {
 
     distribution.earners = earners;
     distribution.percentages = info.percentages;
+    distribution.Settled = false;
+    distribution.Approved = false;
+    distribution.Rejected = false;
 
+    distribution.voteFor = BigInt.fromString("0");
+    distribution.voteAgainst = BigInt.fromString("0");
     distribution.proposalHash = transactionHash;
     distribution.save();
 }
@@ -114,6 +119,7 @@ export function handleDistributionVote(event: VoteDistribution) : void {
     vote.distributionId = info.distributionId;
     vote.support = info.support;
     vote.votes = info.votes;
+    vote.voter = event.transaction.from;
         
     distribution.voteFor = contract.distribution(info.distributionId).voteFor;
     distribution.voteAgainst = contract.distribution(info.distributionId).voteAgainst;

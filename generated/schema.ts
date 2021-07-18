@@ -429,6 +429,23 @@ export class DistributionVote extends Entity {
       this.set("votes", Value.fromBigInt(value as BigInt));
     }
   }
+
+  get voter(): Bytes | null {
+    let value = this.get("voter");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set voter(value: Bytes | null) {
+    if (value === null) {
+      this.unset("voter");
+    } else {
+      this.set("voter", Value.fromBytes(value as Bytes));
+    }
+  }
 }
 
 export class Proposal extends Entity {

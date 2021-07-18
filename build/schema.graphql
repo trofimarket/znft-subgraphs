@@ -35,6 +35,7 @@ type DistributionVote @entity {
   distributionId : BigInt
   support: Boolean
   votes: BigInt
+  voter: Bytes
 }
 
 type Proposal @entity {
