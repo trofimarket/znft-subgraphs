@@ -8,7 +8,7 @@ dataSources:
     name: DAO
     network: kovan
     source:
-      address: "0xB9244C5bCBa0dCB9Ae0973ca67dB223E30B93E5C"
+      address: "0x95477E438a54017753532aA549e5FF048053927a"
       abi: DAO
       startBlock: 26198727
     mapping:
@@ -63,9 +63,9 @@ dataSources:
     name: Auction
     network: kovan
     source:
-      address: "0xe7A3dc442Da652E13d11FB9c7e12c6ea24fd2A21"
+      address: "0x3dc1Ed091956E5c2d403F370C5d3e197A8c0b7db"
       abi: Auction
-      startBlock: 25768930
+      startBlock: 26202941
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -93,9 +93,9 @@ dataSources:
     name: Toptime
     network: kovan
     source:
-      address: "0xd69Ce818b5cf372E55F261107943d9A0E19A64B4"
+      address: "0x02c68BA2A56d19bA5398306Ff8C0f28630E64699"
       abi: Toptime
-      startBlock: 26060487
+      startBlock: 26203292
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -123,9 +123,9 @@ dataSources:
     name: FixedPriceSale
     network: kovan
     source:
-      address: "0x33502F0B548Bf6B8F3A576698571c76F8eB23e8F"
+      address: "0xB73fC8A2eE8B48DCe618E257f2F7D011191004b1"
       abi: FixedPriceABI
-      startBlock: 26061617
+      startBlock: 26203723
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
